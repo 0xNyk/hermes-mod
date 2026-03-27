@@ -2,6 +2,8 @@
 
 Hermes Mod lets you manage Hermes CLI skins in a web ui.
 
+![nous.png](nous.png)
+
 It does the manual work for you:
 - lists built-in skins and custom skins
 - opens a skin into a visual editor
@@ -48,7 +50,7 @@ npm start
 2. Start the app.
 3. Open Skin Studio.
 4. Choose a built-in or custom skin.
-5. Generate a logo from text and upload a PNG, JPG, or GIF to create hero art. Optionally change the hero look style or width.
+5. Generate a logo from text and upload a PNG, JPG, GIF, or WEBP image to create hero art. Optionally change the hero look style or width.
 6. Edit fields and click Save.
 7. Click Activate to set it as the current Hermes skin.
 

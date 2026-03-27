@@ -1208,7 +1208,7 @@ async function chooseHeroImage() {
   }
   setHeroGeneratorSource(data.image_data || data.imageData || '', data.file_name || data.fileName || '');
   if (!state.heroGeneratorImageData) {
-    setStatus('Choose a PNG, JPG, or GIF image', 'error');
+    setStatus('Choose a PNG, JPG, GIF, or WEBP image', 'error');
     return;
   }
   setStatus('Generating hero art...', 'normal');
@@ -1236,7 +1236,7 @@ function triggerHeroGeneration(delay = 0) {
 
 async function generateHeroFromImage() {
   if (!state.heroGeneratorImageData) {
-    setStatus('Choose a PNG, JPG, or GIF to generate hero art', 'error');
+    setStatus('Choose a PNG, JPG, GIF, or WEBP image to generate hero art', 'error');
     return;
   }
 

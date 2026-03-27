@@ -24,12 +24,13 @@ const HERO_ASCII_DEFAULTS = {
   width: 40
 };
 const HERO_ASCII_WIDTH_LIMITS = { min: 16, max: 60 };
-const DATA_URL_IMAGE_PATTERN = /^data:(image\/(?:png|jpe?g|gif));base64,([a-z0-9+/=]+)$/i;
+const DATA_URL_IMAGE_PATTERN = /^data:(image\/(?:png|jpe?g|gif|webp));base64,([a-z0-9+/=]+)$/i;
 const IMAGE_EXTENSION_MIME_MAP = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
-  '.gif': 'image/gif'
+  '.gif': 'image/gif',
+  '.webp': 'image/webp'
 };
 const BRAILLE_BLANK = '\u2800';
 const BRAILLE_BIT_GRID = [
@@ -344,14 +345,39 @@ function normalizeAsciiBlock(input) {
 
 function decodeImagePayload(imageData) {
   const match = String(imageData || '').match(DATA_URL_IMAGE_PATTERN);
-  if (!match) throw new Error('Provide a PNG, JPG, or GIF image as a data URL');
-  return Buffer.from(match[2], 'base64');
+  if (!match) throw new Error('Provide a PNG, JPG, GIF, or WEBP image as a data URL');
+  return {
+    mime: String(match[1] || '').toLowerCase(),
+    buffer: Buffer.from(match[2], 'base64')
+  };
+}
+
+function normalizeImageBufferForJimp(imageBuffer, mime) {
+  if (mime !== 'image/webp') return imageBuffer;
+
+  try {
+    return execFileSync('ffmpeg', [
+      '-hide_banner',
+      '-loglevel', 'error',
+      '-i', 'pipe:0',
+      '-frames:v', '1',
+      '-f', 'image2pipe',
+      '-vcodec', 'png',
+      'pipe:1'
+    ], {
+      input: imageBuffer,
+      encoding: 'buffer',
+      maxBuffer: 32 * 1024 * 1024
+    });
+  } catch (error) {
+    throw new Error('Failed to convert the WEBP image for hero generation');
+  }
 }
 
 function getImageMimeFromPath(filePath) {
   const extension = path.extname(String(filePath || '')).toLowerCase();
   const mime = IMAGE_EXTENSION_MIME_MAP[extension];
-  if (!mime) throw new Error('Choose a PNG, JPG, or GIF image');
+  if (!mime) throw new Error('Choose a PNG, JPG, GIF, or WEBP image');
   return mime;
 }
 
@@ -360,7 +386,7 @@ function openImageFilePickerWindows() {
     '[Console]::OutputEncoding = [System.Text.Encoding]::UTF8',
     'Add-Type -AssemblyName System.Windows.Forms',
     '$dialog = New-Object System.Windows.Forms.OpenFileDialog',
-    '$dialog.Filter = "Images|*.png;*.jpg;*.jpeg;*.gif"',
+    '$dialog.Filter = "Images|*.png;*.jpg;*.jpeg;*.gif;*.webp"',
     '$dialog.Title = "Choose image"',
     '$dialog.Multiselect = $false',
     '$dialog.CheckFileExists = $true',
@@ -393,7 +419,7 @@ function openImageFilePickerLinux() {
     const output = execFileSync('zenity', [
       '--file-selection',
       '--title=Choose image',
-      '--file-filter=Images | *.png *.jpg *.jpeg *.gif'
+      '--file-filter=Images | *.png *.jpg *.jpeg *.gif *.webp'
     ], {
       encoding: 'utf8'
     }).trim();
@@ -897,7 +923,8 @@ app.post('/api/generate-logo', async (req, res) => {
 
 app.post('/api/generate-hero', async (req, res) => {
   try {
-    const imageBuffer = decodeImagePayload(req.body?.image_data || req.body?.imageData);
+    const { mime, buffer } = decodeImagePayload(req.body?.image_data || req.body?.imageData);
+    const imageBuffer = normalizeImageBufferForJimp(buffer, mime);
     const heroStyle = getHeroStyle(req.body?.style);
     const generated = await generateHeroArt(imageBuffer, { style: heroStyle.id, width: req.body?.width });
 
