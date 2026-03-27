@@ -1,0 +1,16 @@
+{
+  "name": "hermes-mod",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Express-based Hermes skin manager for Pinokio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "figlet": "^1.8.2",
+    "jimp": "^0.22.12",
+    "js-yaml": "^4.1.0"
+  }
+}

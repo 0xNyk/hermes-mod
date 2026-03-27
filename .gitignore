@@ -1,0 +1,7 @@
+app/node_modules/
+app/package-lock.json
+logs/
+cache/
+.pinokio-temp/
+.tmp-edge-profile/
+.tmp-edge-profile-debug/

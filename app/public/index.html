@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hermes Mod</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Hermes theme system</p>
+          <h1>Hermes Mod</h1>
+          <p class="lede">Browse built-in and custom skins, edit the real Hermes skin schema, and save directly into your Hermes config without manual file juggling.</p>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="panel library-panel">
+          <div class="panel-head library-head">
+            <h2 class="library-brand">
+              <img src="./nous-research-icon.jpg" alt="" class="library-brand-icon" />
+              <span class="library-brand-label">Hermes Mod</span>
+            </h2>
+            <button id="createButton" type="button" class="mini-button library-create-button">Create</button>
+          </div>
+
+          <div class="library-meta">
+            <div><span>Active</span><strong id="libraryActiveSkinLabel">default</strong></div>
+            <div><span>Saved</span><strong id="savedSkinCount">0</strong></div>
+          </div>
+
+          <div class="library-scroll">
+            <section class="library-section">
+              <div class="section-title-row library-section-row">
+                <h3>Saved Skins</h3>
+              </div>
+              <div id="userList" class="skin-list library-skin-list"></div>
+              <div id="userListEmpty" class="empty-state-block" hidden>
+                <p>No custom skins yet.</p>
+              </div>
+            </section>
+          </div>
+        </aside>
+
+        <section class="panel preview-panel">
+          <div class="preview-topbar">
+            <div class="preview-header-spacer" aria-hidden="true"></div>
+            <div class="preview-primary-row" aria-label="Skin actions">
+              <button id="cloneButton" class="mini-button preview-action-button" disabled>Clone</button>
+              <button id="saveButton" class="mini-button preview-action-button" disabled>Save</button>
+              <button id="activateButton" class="mini-button preview-action-button preview-action-button-accent" disabled>Activate</button>
+            </div>
+          </div>
+
+          <div class="sr-only" aria-hidden="true">
+            <span id="previewDocumentTitle">custom-skin</span>
+            <span id="statusMessage" class="preview-status">Ready</span>
+          </div>
+
+          <div class="preview-empty-state" id="previewEmptyState">
+            <div>
+              <p class="preview-empty-title">Select a skin</p>
+            </div>
+          </div>
+
+          <div class="preview-workspace" id="previewWorkspace" hidden>
+            <div class="preview-stack">
+              <div class="terminal startup-terminal" id="terminalPreview">
+                <div class="preview-scale-frame" id="startupScaleFrame">
+                  <section class="startup-screen" id="startupScreenPreview">
+                    <div class="startup-logo-wrap">
+                      <pre class="startup-logo preview-focus-target" id="startupLogoPreview" data-section-target="section-logo" data-focus-target="banner_logo_ascii" tabindex="0" role="button" aria-label="Jump to banner logo controls"></pre>
+                    </div>
+
+                    <div class="startup-meta-card" id="startupMetaCard">
+                      <div class="startup-meta-grid">
+                        <div class="startup-meta-copy">
+                          <div class="banner-title-row">
+                            <span class="banner-chip preview-focus-target inline-focus-target" id="previewAgentName" data-section-target="section-branding" data-focus-target="agent_name" tabindex="0" role="button" aria-label="Jump to agent name field">Hermes Agent</span>
+                            <span class="banner-rule"></span>
+                          </div>
+                          <div class="banner-body">
+                            <p><span class="accent">Session</span> interactive CLI</p>
+                            <p><span class="accent">Model</span> gpt-5.4</p>
+                            <p><span class="accent">Skin</span> <span class="preview-focus-target inline-focus-target" id="previewSkinName" data-section-target="section-skin" data-focus-target="skinName" tabindex="0" role="button" aria-label="Jump to skin name field">default</span></p>
+                            <p class="preview-focus-target block-focus-target" id="previewWelcome" data-section-target="section-branding" data-focus-target="welcome" tabindex="0" role="button" aria-label="Jump to welcome field">Ready when you are.</p>
+                          </div>
+                        </div>
+                        <div class="startup-hero-wrap">
+                          <pre class="hero-art startup-hero preview-focus-target" id="bannerHeroPreview" data-section-target="section-hero" data-focus-target="banner_hero_ascii" tabindex="0" role="button" aria-label="Jump to banner hero controls"></pre>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="terminal-line startup-spinner-line">
+                      <span class="tool-prefix preview-focus-target inline-focus-target" id="previewToolPrefix" data-section-target="section-tools" data-focus-target="tool_prefix" tabindex="0" role="button" aria-label="Jump to tool prefix field">|</span>
+                      <span class="spinner-wings preview-focus-target inline-focus-target" id="previewWingLeft" data-section-target="section-spinner" data-focus-target="wings" tabindex="0" role="button" aria-label="Jump to spinner wings field">&lt;</span>
+                      <span class="spinner-face preview-focus-target inline-focus-target" id="previewSpinnerFace" data-section-target="section-spinner" data-focus-target="waiting_faces" tabindex="0" role="button" aria-label="Jump to waiting faces field">o</span>
+                      <span class="spinner-wings preview-focus-target inline-focus-target" id="previewWingRight" data-section-target="section-spinner" data-focus-target="wings" tabindex="0" role="button" aria-label="Jump to spinner wings field">&gt;</span>
+                      <span class="spinner-verb preview-focus-target inline-focus-target" id="previewSpinnerVerb" data-section-target="section-spinner" data-focus-target="thinking_verbs" tabindex="0" role="button" aria-label="Jump to thinking verbs field">thinking</span>
+                    </div>
+
+                    <div class="response-box preview-focus-target" id="responsePreview" data-section-target="section-branding" data-focus-target="response_label" tabindex="0" role="button" aria-label="Jump to response label field">
+                      <div class="response-label" id="previewResponseLabel"> Hermes </div>
+                      <p>Skins now save directly into your Hermes folder. No manual copying needed.</p>
+                    </div>
+
+                    <div class="prompt-line preview-focus-target" data-section-target="section-branding" data-focus-target="prompt_symbol" tabindex="0" role="button" aria-label="Jump to prompt symbol field">
+                      <span class="prompt-symbol" id="previewPromptSymbol">&gt;</span>
+                      <span>make the launch screen feel calmer</span>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel inspector-panel">
+          <div class="inspector-topbar">
+            <div class="panel-head inspector-head">
+              <div class="inspector-toolbar" id="inspectorToolbar" hidden>
+                <div class="inspector-section-nav" aria-label="Jump to section">
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-skin">Skin</button>
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-art">Art</button>
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-branding">Branding</button>
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-colors">Colors</button>
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-spinner">Spinner</button>
+                  <button type="button" class="mini-button inspector-nav-chip" data-section-link="section-tools">Tools</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="inspector-empty-state" id="inspectorEmptyState">
+            <div>
+              <p class="inspector-empty-title">Select a skin</p>
+            </div>
+          </div>
+
+          <div class="inspector-scroll" id="inspectorWorkspace" hidden>
+            <section class="section-block inspector-section" id="section-skin" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Skin</h3>
+                <span class="helper">Edit the draft identity and save it back into Hermes.</span>
+              </div>
+
+              <div class="field-grid one-col">
+                <label class="field">
+                  <span>Skin name</span>
+                  <input id="skinName" type="text" />
+                </label>
+                <label class="field">
+                  <span>Description</span>
+                  <input id="description" type="text" />
+                </label>
+              </div>
+
+              <div class="meta-box inspector-meta">
+                <div><span>Active skin</span><strong id="activeSkinLabel">default</strong></div>
+                <div><span>Hermes home</span><code id="hermesHomeLabel">~/.hermes</code></div>
+                <div><span>Draft state</span><strong id="editorModeLabel">Unsaved draft</strong></div>
+              </div>
+
+              <div class="section-inline-actions">
+                <button id="deleteButton" type="button" class="mini-button inspector-danger-button">Delete</button>
+              </div>
+            </section>
+
+            <section class="section-block inspector-section" id="section-art" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Startup Art</h3>
+                <span class="helper">Generate text art, then fine-tune the color and weight.</span>
+              </div>
+
+              <div class="field-grid one-col art-composer-grid">
+                <div class="art-card" id="section-logo">
+                  <div class="art-card-head">
+                    <h4>Banner logo</h4>
+                    <span class="helper">Main title art at the top</span>
+                  </div>
+                  <div class="field-grid generator-grid">
+                    <label class="field">
+                      <span>Generate from text</span>
+                      <input id="logo_generator_title" type="text" placeholder="Type text to generate a new logo" />
+                      <p class="field-note">Generator only. This text is not saved with the skin.</p>
+                    </label>
+                    <label class="field">
+                      <span>Style</span>
+                      <select id="logo_generator_style"></select>
+                    </label>
+                  </div>
+                  <label class="field">
+                    <span>Saved logo text art</span>
+                    <textarea id="banner_logo_ascii" rows="7"></textarea>
+                    <p class="field-note">This textarea is the actual saved <code>banner_logo</code> value.</p>
+                  </label>
+                  <div class="field-grid three-col compact-grid">
+                    <label class="field color-field"><span>Color</span><input id="banner_logo_color" type="color" value="#c93c24" /></label>
+                    <label class="field checkbox-field"><span>Bold</span><input id="banner_logo_bold" type="checkbox" checked /></label>
+                    <label class="field checkbox-field"><span>Dim</span><input id="banner_logo_dim" type="checkbox" /></label>
+                  </div>
+                </div>
+
+                <div class="art-card" id="section-hero">
+                  <div class="art-card-head">
+                    <h4>Banner hero</h4>
+                    <span class="helper">Upload an image and convert it for the startup hero slot</span>
+                  </div>
+                  <div class="hero-upload-block">
+                    <div class="field hero-file-field">
+                      <span>Reference image</span>
+                      <div class="file-picker-row">
+                        <button id="heroPickerButton" type="button" class="file-picker-button">Choose image</button>
+                        <span id="hero_generator_file_name" class="file-picker-name">No image selected</span>
+                      </div>
+                      <span class="helper">The app fits the image to the chosen width and preserves aspect ratio automatically.</span>
+                    </div>
+                    <label class="field">
+                      <span>Look</span>
+                      <select id="hero_generator_style"></select>
+                      <span class="helper">Optional. Changes the shading style.</span>
+                    </label>
+                    <label class="field">
+                      <span>Width</span>
+                      <input id="hero_generator_width" type="number" min="16" max="60" value="40" />
+                      <span class="helper">More width means more detail.</span>
+                    </label>
+                  </div>
+                  <label class="field"><span>Text art</span><textarea id="banner_hero_ascii" rows="7"></textarea></label>
+                  <div class="field-grid three-col compact-grid">
+                    <label class="field color-field"><span>Color</span><input id="banner_hero_color" type="color" value="#c7a96b" /></label>
+                    <label class="field checkbox-field"><span>Bold</span><input id="banner_hero_bold" type="checkbox" /></label>
+                    <label class="field checkbox-field"><span>Dim</span><input id="banner_hero_dim" type="checkbox" /></label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="section-block inspector-section" id="section-branding" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Branding</h3>
+                <span class="helper">Text labels and prompt copy used across the startup screen.</span>
+              </div>
+              <div class="field-grid two-col">
+                <label class="field"><span>Agent name</span><input id="agent_name" type="text" /></label>
+                <label class="field"><span>Welcome</span><input id="welcome" type="text" /></label>
+                <label class="field"><span>Goodbye</span><input id="goodbye" type="text" /></label>
+                <label class="field"><span>Response label</span><input id="response_label" type="text" /></label>
+                <label class="field"><span>Prompt symbol</span><input id="prompt_symbol" type="text" /></label>
+                <label class="field"><span>Help header</span><input id="help_header" type="text" /></label>
+              </div>
+            </section>
+
+            <section class="section-block inspector-section" id="section-colors" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Colors</h3>
+                <span class="helper">Live-updated theme colors for the CLI shell.</span>
+              </div>
+              <div id="colorGrid" class="color-grid"></div>
+            </section>
+
+            <section class="section-block inspector-section" id="section-spinner" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Spinner</h3>
+                <span class="helper">Thinking faces, verbs, and wing pairs.</span>
+              </div>
+              <div class="field-grid two-col">
+                <label class="field"><span>Waiting faces</span><input id="waiting_faces" type="text" /></label>
+                <label class="field"><span>Thinking faces</span><input id="thinking_faces" type="text" /></label>
+                <label class="field"><span>Thinking verbs</span><input id="thinking_verbs" type="text" /></label>
+                <label class="field"><span>Wings (left, right)</span><input id="wings" type="text" /></label>
+              </div>
+            </section>
+
+            <section class="section-block inspector-section" id="section-tools" data-inspector-panel>
+              <div class="section-title-row">
+                <h3>Tool Styling</h3>
+                <span class="helper">Prefixes and optional emoji overrides.</span>
+              </div>
+              <div class="field-grid two-col">
+                <label class="field"><span>Tool prefix</span><input id="tool_prefix" type="text" /></label>
+                <label class="field"><span>Terminal emoji</span><input id="tool_terminal" type="text" /></label>
+                <label class="field"><span>Web search emoji</span><input id="tool_web_search" type="text" /></label>
+                <label class="field"><span>Browser emoji</span><input id="tool_browser_navigate" type="text" /></label>
+                <label class="field"><span>File emoji</span><input id="tool_file" type="text" /></label>
+                <label class="field"><span>Todo emoji</span><input id="tool_todo" type="text" /></label>
+              </div>
+            </section>
+
+            <details class="yaml-panel inspector-yaml-panel">
+              <summary class="yaml-summary">
+                <span>Generated YAML</span>
+              </summary>
+              <div class="yaml-body">
+                <div class="yaml-actions">
+                  <button id="copyYamlButton" class="mini-button">Copy</button>
+                </div>
+                <textarea id="yamlOutput" spellcheck="false"></textarea>
+              </div>
+            </details>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="createModal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="createModalTitle">
+        <div class="modal-head">
+          <div>
+            <span class="pane-label">Create</span>
+            <h2 id="createModalTitle">Create Skin</h2>
+          </div>
+          <button id="closeCreateModalButton" type="button" class="mini-button modal-close-button">Close</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="create-mode-grid">
+            <button type="button" class="create-mode-card" data-create-mode="blank">
+              <strong>Blank</strong>
+            </button>
+            <button type="button" class="create-mode-card" data-create-mode="preset">
+              <strong>Preset</strong>
+            </button>
+            <button type="button" class="create-mode-card" data-create-mode="existing">
+              <strong>Clone</strong>
+            </button>
+          </div>
+
+          <div class="field-grid one-col modal-form-grid">
+            <label class="field">
+              <span>Name</span>
+              <input id="createSkinName" type="text" autocomplete="off" />
+            </label>
+
+            <label class="field create-source-field" id="createPresetField" hidden>
+              <span>Starter preset</span>
+              <select id="createPresetSelect"></select>
+            </label>
+
+            <label class="field create-source-field" id="createExistingField" hidden>
+              <span>Existing skin</span>
+              <select id="createExistingSelect"></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="cancelCreateButton" type="button" class="mini-button">Cancel</button>
+          <button id="confirmCreateButton" type="button" class="button button-accent">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <template id="skinCardTemplate">
+      <button type="button" class="skin-card">
+        <span class="skin-card-title"></span>
+        <span class="skin-card-desc"></span>
+        <span class="skin-card-meta"></span>
+      </button>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
