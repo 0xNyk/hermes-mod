@@ -46,6 +46,11 @@ npm start
 
 ## How to use
 
+
+https://github.com/user-attachments/assets/52d911c3-6017-458c-92f6-c59f057c0528
+
+
+
 1. Install the app in Pinokio.
 2. Start the app.
 3. Open Skin Studio.
