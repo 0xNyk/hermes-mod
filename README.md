@@ -46,6 +46,8 @@ npm start
 
 ## How to use
 
+<video src="mod.mp4"></video>
+
 1. Install the app in Pinokio.
 2. Start the app.
 3. Open Skin Studio.
